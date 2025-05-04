@@ -7,3 +7,6 @@ ubuntu2
 
 [file_servers]
 ubuntu3
+
+[workstations]
+172.20.174.150
