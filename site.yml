@@ -28,6 +28,21 @@
       name: admin1
       groups: root
 
+  - name: add ssh key for admin1
+    tags: always
+    authorized_key:
+      user: admin1
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGN1R3zh9GAnHQkpu1j8xggx+k38cjC+WtS2EejgF2EI ansible"
+
+- name: add sudoers file for admin1
+  tags: always
+  copy:
+    src: sudoer_admin1
+    dest: /etc/sudoers.d/admin1
+    owner: root
+    group: root
+    mode: 0440
+
 - hosts: workstations
   become: true
   tasks:
