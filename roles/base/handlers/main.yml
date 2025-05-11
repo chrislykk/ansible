@@ -1,13 +1,13 @@
-- name: restart_sshd
-  block:
-    - name: Restart sshd on CentOS
-      service:
-        name: sshd
-        state: restarted
-      when: ansible_distribution == "CentOS"
+- name: Restart sshd on CentOS
+  service:
+    name: sshd
+    state: restarted
+  listen: restart_sshd
+  when: ansible_distribution == "CentOS"
 
-    - name: Restart ssh on Ubuntu
-      service:
-        name: ssh
-        state: restarted
-      when: ansible_distribution == "Ubuntu"
+- name: Restart ssh on Ubuntu
+  service:
+    name: ssh
+    state: restarted
+  listen: restart_sshd
+  when: ansible_distribution == "Ubuntu"
