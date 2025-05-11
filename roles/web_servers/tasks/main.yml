@@ -41,7 +41,7 @@
   when: httpd.changed    
 
 - name: copy html file for site
-  tags: apache,apache,apache2,httpd
+  tags: apache,apache2,httpd
   copy:
     src: default_site.html
     dest: /var/www/html/index.html
