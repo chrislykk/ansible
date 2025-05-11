@@ -30,7 +30,7 @@
     path: /etc/httpd/conf/httpd.conf
     regexp: '^ServerAdmin'
     line: ServerAdmin chris@email.net
-  when: ansible_distribution == "Centos"
+  when: ansible_distribution == "CentOS"
   register: httpd
 
 - name: restart httpd (CentOS)
