@@ -1,48 +1,77 @@
-# Ansible Training Project
+# Multi-Distro Webstack Ansible
 
-This is a personal Ansible training repository designed to practice infrastructure automation concepts using Ansible playbooks, roles, and host-specific variables.
+A flexible, distro-agnostic Ansible playbook for deploying a basic web stack (Apache, PHP, MariaDB) across multiple Linux distributions. Designed for tinkerers, sysadmins, and anyone who wants to automate web server provisioning without being locked into a single OS family.
 
-## 📦 Project Structure
+## ✨ Features
 
-ansible/
-├── site.yml # Main playbook entry point
-├── inventory # Inventory file listing target hosts
-├── roles/ # Modular Ansible roles
-├── host_vars/ # Host-specific variable definitions
-└── README.md # Project documentation
+- Supports Debian/Ubuntu and RedHat/CentOS-based systems
+- Installs and configures Apache, PHP, and MariaDB
+- Uses `include_vars` and conditional logic to handle distro-specific differences
+- Modular role structure for easy customization and reuse
+- Minimal dependencies, maximum portability
 
+## 📁 Directory Structure
+
+```
+multi-distro-webstack-ansible/
+├── group_vars/
+│   └── all.yml
+├── host_vars/
+│   └── yourhost.yml
+├── inventory/
+│   └── hosts.ini
+├── roles/
+│   ├── apache/
+│   ├── mariadb/
+│   └── php/
+├── site.yml
+└── README.md
+```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Ansible installed on your control node (host running the playbook)
-- SSH access to the target machines
-- Python installed on managed nodes (usually pre-installed)
+- Ansible 2.10+
+- SSH access to target hosts
+- Sudo privileges on remote machines
 
-### Running the Playbook
+### Inventory Setup
 
-To execute the main playbook:
+Edit `inventory/hosts.ini`:
 
-```bash
-ansible-playbook -i inventory site.yml
+```ini
+[webservers]
+debian1 ansible_host=192.168.1.10 ansible_user=youruser
+centos1 ansible_host=192.168.1.11 ansible_user=youruser
 ```
 
-🧱 Roles
-Each role encapsulates related tasks, handlers, and variables for specific functions. Example:
+### Run the Playbook
 
-base: baseline setup for all nodes
+```bash
+ansible-playbook -i inventory/hosts.ini site.yml
+```
 
-web_servers: installs and configures web services
+## 🧠 How It Works
 
-db_servers: installs and configures MariaDB database services
+Each role uses `include_vars` to load OS-specific variables:
 
-file_servers: installs and configures samba services
+```yaml
+- name: Load OS-specific vars
+  include_vars: "{{ ansible_os_family }}.yml"
+```
 
-📄 Host Variables
-The host_vars/ directory defines per-host configurations. These override defaults and can be used to tailor deployments to specific machines.
+This allows you to define package names, service names, and config paths per distro in `vars/`.
 
+## 🛠️ Customization
 
+Want to swap Apache for Nginx? Add a new role and update `site.yml`. Need to support Arch or Alpine? Just drop in a new vars file and you're good to go.
 
+## 📜 License
+
+MIT — use it, fork it, break it, fix it.
 
 ---
+
+Built with 🧠 and a bit of bash history. Contributions welcome.
+
